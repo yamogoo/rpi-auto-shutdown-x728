@@ -1,9 +1,12 @@
 #! /bin/bash
 
 NAME="auto_shutdown"
-HANDLER="HandleHibernateKey"
-HANDLER_OPTION="shutdown"
-SYSTEMD_CONF="etc/systemd/logind.conf"
+HANDLE_POWER_KEY="HandlePowerKey"
+HANDLE_POWER_KEY_VALUE="shutdown"
+HANDLE_HIBERNATE_KEY="HandleHibernateKey"
+HANDLE_HIBERNATE_KEY_VALUE="shutdown"
+SYSTEMD_CONF="/etc/systemd/logind.conf"
+CONFIG_TXT_PATH="/boot/config.txt"
 
 # palette
 green='\u001b[32m'
@@ -24,6 +27,10 @@ sudo update-rc.d $NAME.sh defaults
 sudo /etc/init.d/$NAME.sh start
 
 # systemd config
-sudo sed -i "s/^$HANDLER.*\|^#$HANDLER.*/$HANDLER=$HANDLER_OPTION/" /$SYSTEMD_CONF
+sudo sed -i "s/^$HANDLE_POWER_KEY.*\|^#$HANDLE_POWER_KEY.*/$HANDLE_POWER_KEY=$HANDLE_POWER_KEY_VALUE/" $SYSTEMD_CONF
+sudo sed -i "s/^$HANDLE_HIBERNATE_KEY.*\|^#$HANDLE_HIBERNATE_KEY.*/$HANDLE_HIBERNATE_KEY=$HANDLE_HIBERNATE_KEY_VALUE/" $SYSTEMD_CONF
+
+# config.txt
+sudo sed -i "s/^dtoverlay=gpio-shutdown.*/dtoverlay=gpio-shutdown,gpio_pin=19,active_low=1,gpio_pull=down/" $CONFIG_TXT_PATH
 
 echo -e $green"RPI AC Power watcher for x728 installed"$clear
