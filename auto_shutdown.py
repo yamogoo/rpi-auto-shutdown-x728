@@ -8,18 +8,14 @@ POWER_STATUS_PIN = 26
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(POWER_STATUS_PIN, GPIO.IN)
 
+loop = True
+
 GPIO.wait_for_edge(POWER_STATUS_PIN, GPIO.FALLING)
 
 
-def close_firefox():
-    subprocess.run(['kill', '-9', '$(ps -x | grep firefox)'])
-
-
-if GPIO.input(POWER_STATUS_PIN) == 0:
-    close_firefox()
-    time.sleep(3)
-    subprocess.run(['sudo', 'shutdown', '-h', 'now'], shell=False)
-    # print('AC OFF')
-else:
-    print('AC ON')
-time.sleep(1)
+while loop:
+    if GPIO.input(POWER_STATUS_PIN) == 0:
+        loop = False
+        time.sleep(2)
+        subprocess.run(['sudo', 'shutdown', '-h', 'now'], shell=False)
+    time.sleep(1)
