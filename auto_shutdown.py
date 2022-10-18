@@ -10,10 +10,16 @@ GPIO.setup(POWER_STATUS_PIN, GPIO.IN)
 
 GPIO.wait_for_edge(POWER_STATUS_PIN, GPIO.FALLING)
 
-if POWER_STATUS_PIN is None:
-    print('AC ON')
-else:
-    time.sleep(1)
+
+def close_firefox():
+    subprocess.run(['kill', '-9', '$(ps -x | grep firefox)'])
+
+
+if GPIO.input(POWER_STATUS_PIN) == 0:
+    close_firefox()
+    time.sleep(3)
     subprocess.run(['sudo', 'shutdown', '-h', 'now'], shell=False)
     # print('AC OFF')
-    # subprocess.run(['kill', '-9', '$(ps -x | grep firefox)'])
+else:
+    print('AC ON')
+time.sleep(1)

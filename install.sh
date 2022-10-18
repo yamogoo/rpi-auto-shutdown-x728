@@ -25,7 +25,7 @@ sudo update-rc.d $NAME.sh defaults
 sudo /etc/init.d/$NAME.sh start
 
 # systemd config
-sudo sed -i "s/^$HANDLE_POWER_KEY.*\|^#$HANDLE_POWER_KEY.*/$HANDLE_POWER_KEY=$HANDLE_POWER_KEY_VALUE/" $SYSTEMD_CONF
+sudo sed -i "s/^$HANDLE_POWER_KEY.*\|^#$HANDLE_POWER_KEY.*/#$HANDLE_POWER_KEY=$HANDLE_POWER_KEY_VALUE/" $SYSTEMD_CONF
 sudo sed -i "s/^$HANDLE_HIBERNATE_KEY.*\|^#$HANDLE_HIBERNATE_KEY.*/#$HANDLE_HIBERNATE_KEY=$HANDLE_HIBERNATE_KEY_VALUE/" $SYSTEMD_CONF
 
 # config.txt
