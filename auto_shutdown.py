@@ -13,7 +13,7 @@ GPIO.wait_for_edge(POWER_STATUS_PIN, GPIO.FALLING)
 if POWER_STATUS_PIN is None:
     print('AC ON')
 else:
-    # print('AC OFF')
-    subprocess.run(['kill', '-9', '$(ps -x | grep firefox)'])
-    time.sleep(2)
+    time.sleep(1)
     subprocess.run(['sudo', 'shutdown', '-h', 'now'], shell=False)
+    # print('AC OFF')
+    # subprocess.run(['kill', '-9', '$(ps -x | grep firefox)'])
