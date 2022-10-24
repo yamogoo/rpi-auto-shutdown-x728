@@ -12,7 +12,6 @@ loop = True
 
 GPIO.wait_for_edge(POWER_STATUS_PIN, GPIO.FALLING)
 
-
 while loop:
     if GPIO.input(POWER_STATUS_PIN) == 0:
         loop = False
